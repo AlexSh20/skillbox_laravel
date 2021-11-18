@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Articles extends Model
+class Article extends Model
 {
     public $guarded = [];
 
@@ -13,7 +13,7 @@ class Articles extends Model
         return 'slug';
     }
 
-    public function scopeRelease($query)
+    public function scopePublished ($query)
     {
         return $query->where('release', 1);
     }

@@ -12,7 +12,7 @@
                     <div class="column col"><b>Текст сообщения</b></div>
                     <div class="column col"><b>Дата получения</b></div>
                 </div>
-                @foreach($feedBacks as $feedback)
+                @foreach($feedbacks as $feedback)
 
                 <div class="row">
                     <div class="column col-sm">{{ $feedback->email }}</div>

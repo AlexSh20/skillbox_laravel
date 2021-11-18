@@ -1,6 +1,6 @@
 <?php
 /**/
-Route::get('/','ArticlesController@index');
+Route::get('/','ArticlesController@index')->name('main');
 Route::get('/about','AboutController@index');
 Route::get('/contacts','ContactsController@index');
 Route::get('/articles/create','ArticlesController@create');

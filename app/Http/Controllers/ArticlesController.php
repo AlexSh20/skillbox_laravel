@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Articles;
-use Illuminate\Support\Str;
+use App\Models\Article;
 
 class ArticlesController extends Controller
 {
@@ -16,7 +14,7 @@ class ArticlesController extends Controller
     public function index()
     {
         $title = "Главная страница";
-        $articles = Articles::Release()->get();
+        $articles = Article::published()->get();
         return view('articles.index', compact('title', 'articles'));
     }
 
@@ -41,20 +39,21 @@ class ArticlesController extends Controller
     {
 
         $this->validate(request(), [
+            'title' => 'required',
             'title' => 'required|min:5|max:100',
             'description' => 'required|max:255',
             'text' => 'required',
         ]);
 
-        Articles::create([
-            'slug' => Str::slug(request('title'), '-'),
+        Article::create([
+            'slug' => request('slug'),
             'name' => request('title'),
             'description' => request('description'),
             'text' => request('text'),
             'release' => request('release') == 'on' ? true : false,
         ]);
 
-        return redirect('/');
+        return redirect()->route('main');
 
     }
 
@@ -64,7 +63,7 @@ class ArticlesController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Articles $slug)
+    public function show(Article $slug)
     {
         $title = "Статья";
         return view('articles.show', compact('title', 'slug'));

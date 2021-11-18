@@ -12,6 +12,13 @@
             <form method="post" action="/articles">
                 @csrf
                 <div class="form-group">
+                    <label for="inputTitle">Символьный код</label>
+                    <input type="text" class="form-control" id="inputTitle" name="slug"
+                           placeholder="Добавьте символьный код">
+
+                </div>
+
+                <div class="form-group">
                     <label for="inputTitle">Название</label>
                     <input type="text" class="form-control" id="inputTitle" name="title"
                            placeholder="Добавьте название статьи">

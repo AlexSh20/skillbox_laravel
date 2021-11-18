@@ -9,8 +9,8 @@ class AdminController extends Controller
     public function index()
     {
         $title = "Посмотреть обращения";
-        $feedBacks = Feedback::orderByDesc('created_at')->get();
-        return view('admin.feedback', compact('title','feedBacks'));
+        $feedbacks = Feedback::orderByDesc('created_at')->get();
+        return view('admin.feedback', compact('title','feedbacks'));
     }
 
     public function store()
