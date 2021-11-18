@@ -26,7 +26,7 @@ class AdminController extends Controller
             'message' => request('message'),
         ]);
 
-        return redirect('/contacts');
+        return redirect()->route('contacts');
 
     }
 }
