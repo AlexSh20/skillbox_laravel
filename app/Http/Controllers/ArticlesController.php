@@ -39,7 +39,7 @@ class ArticlesController extends Controller
     {
 
         $this->validate(request(), [
-            'title' => 'required',
+            'slug' => 'required|unique:articles,slug|regex:/^[a-z0-9-]+$/i',
             'title' => 'required|min:5|max:100',
             'description' => 'required|max:255',
             'text' => 'required',
