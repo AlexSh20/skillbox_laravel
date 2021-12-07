@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use function Webmozart\Assert\Tests\StaticAnalysis\resource;
+use App\Services\FormRequest;
 
 class ArticlesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function index()
     {
         $title = "Главная страница";
@@ -18,55 +17,43 @@ class ArticlesController extends Controller
         return view('articles.index', compact('title', 'articles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $title = "Добавление статьи";
         return view('articles.create', compact('title'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store()
     {
-
-        $this->validate(request(), [
-            'slug' => 'required|unique:articles,slug|regex:/^[a-z0-9-]+$/i',
-            'title' => 'required|min:5|max:100',
-            'description' => 'required|max:255',
-            'text' => 'required',
-        ]);
-
-        Article::create([
-            'slug' => request('slug'),
-            'name' => request('title'),
-            'description' => request('description'),
-            'text' => request('text'),
-            'release' => request('release') == 'on' ? true : false,
-        ]);
-
+        $request = new FormRequest;
+        Article::create($request->validate());
         return redirect()->route('main');
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Article $slug)
     {
         $title = "Статья";
         return view('articles.show', compact('title', 'slug'));
+    }
+
+    public function edit(Article $slug)
+    {
+        $title = "Редактирование статьи";
+        return view('articles.edit', compact('title', 'slug'));
+    }
+
+    public function update(Article $slug)
+    {
+        $request = new FormRequest;
+        $slug->update($request->validate());
+        return redirect()->route('main');
+    }
+
+    public function destroy(Article $slug)
+    {
+        $slug->delete();
+        return redirect()->route('main');
     }
 
 

@@ -14,6 +14,7 @@
         </div>
 
         <nav class="blog-pagination">
+            <a class="btn btn-outline-primary" href="/articles/{{ $slug->slug }}/edit">Редактировать статью</a>
             <a class="btn btn-outline-primary" href="/">К списку статей</a>
         </nav>
 
