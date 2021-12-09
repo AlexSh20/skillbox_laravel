@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ $title }}</title>
+    <title>@yield('title')</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/blog/">
 
@@ -26,8 +26,8 @@
 <main role="main" class="container">
     <div class="row">
         @yield('content')
-        @include('layout.sidebar')
 
+        @include('layout.sidebar')
 
     </div><!-- /.row -->
 

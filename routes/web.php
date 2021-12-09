@@ -2,7 +2,6 @@
 /*
 Route::resource('/articles', 'ArticlesController');
 */
-Route::get('/','ArticlesController@index')->name('main');
 Route::get('/articles/create','ArticlesController@create');
 Route::get('/articles/{slug}','ArticlesController@show');
 Route::post('/articles','ArticlesController@store');

@@ -2,51 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewArticleRequest;
+use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use function Webmozart\Assert\Tests\StaticAnalysis\resource;
-use App\Services\FormRequest;
 
 class ArticlesController extends Controller
 {
-
-
     public function index()
     {
-        $title = "Главная страница";
         $articles = Article::published()->get();
-        return view('articles.index', compact('title', 'articles'));
+        return view('articles.index', compact( 'articles'));
     }
 
     public function create()
     {
-        $title = "Добавление статьи";
-        return view('articles.create', compact('title'));
+        return view('articles.create');
     }
 
-    public function store()
+    public function store(NewArticleRequest $request)
     {
-        $request = new FormRequest;
-        Article::create($request->validate());
+        Article::create($request->rules());
         return redirect()->route('main');
-
     }
 
     public function show(Article $slug)
     {
-        $title = "Статья";
-        return view('articles.show', compact('title', 'slug'));
+        return view('articles.show', compact( 'slug'));
     }
 
     public function edit(Article $slug)
     {
-        $title = "Редактирование статьи";
-        return view('articles.edit', compact('title', 'slug'));
+        return view('articles.edit', compact( 'slug'));
     }
 
-    public function update(Article $slug)
+    public function update(Article $slug, UpdateArticleRequest $request)
     {
-        $request = new FormRequest;
-        $slug->update($request->validate());
+        $slug->update($request->rules());
         return redirect()->route('main');
     }
 
@@ -55,6 +47,4 @@ class ArticlesController extends Controller
         $slug->delete();
         return redirect()->route('main');
     }
-
-
 }

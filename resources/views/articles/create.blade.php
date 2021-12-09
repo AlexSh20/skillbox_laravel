@@ -1,9 +1,13 @@
 @extends('layout.master')
 
+@section('title')
+    Добавление новой статьи
+@endsection
+
 @section('content')
     <div class="col-md-8 blog-main">
         <h3 class="pb-3 mb-4 font-italic border-bottom">
-            {{ $title }}
+            Добавление новой статьи
         </h3>
 
         @include('layout.errors')
