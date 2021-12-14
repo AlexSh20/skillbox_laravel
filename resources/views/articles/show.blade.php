@@ -1,24 +1,25 @@
 @extends('layout.master')
 
 @section('title')
-    {{ $slug->name }}
+    {{ $article->name }}
 @endsection
 
 @section('content')
     <div class="col-md-8 blog-main">
         <h3 class="pb-3 mb-4 font-italic border-bottom">
-            {{ $slug->name }}
+            {{ $article->name }}
         </h3>
 
+        @include('articles.tags', ['tags' =>$article->tags])
 
         <div class="blog-post">
-            <p class="blog-post-meta">{{ $slug->created_at->toFormattedDateString()  }}</p>
-            <p>{{ $slug->text }}</p>
+            <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString()  }}</p>
+            <p>{{ $article->text }}</p>
             <hr>
         </div>
 
         <nav class="blog-pagination">
-            <a class="btn btn-outline-primary" href="/articles/{{ $slug->slug }}/edit">Редактировать статью</a>
+            <a class="btn btn-outline-primary" href="/articles/{{ $article->slug }}/edit">Редактировать статью</a>
             <a class="btn btn-outline-primary" href="/">К списку статей</a>
         </nav>
 

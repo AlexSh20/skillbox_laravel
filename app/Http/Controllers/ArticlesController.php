@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NewArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
+use App\Models\Tag;
+use App\Services\TagsSynchronizer;
 use function Webmozart\Assert\Tests\StaticAnalysis\resource;
 
 class ArticlesController extends Controller
 {
     public function index()
     {
-        $articles = Article::published()->get();
+        $articles = Article::with('tags')->published()->get();
         return view('articles.index', compact( 'articles'));
     }
 
@@ -22,29 +24,34 @@ class ArticlesController extends Controller
 
     public function store(NewArticleRequest $request)
     {
-        Article::create($request->rules());
+        $article = Article::create($request->validated());
+        TagsSynchronizer::sync(Tag::makeCollection(request('tags')), $article);
+
         return redirect()->route('main');
     }
 
-    public function show(Article $slug)
+    public function show(Article $article)
     {
-        return view('articles.show', compact( 'slug'));
+        return view('articles.show', compact( 'article'));
     }
 
-    public function edit(Article $slug)
+    public function edit(Article $article)
     {
-        return view('articles.edit', compact( 'slug'));
+        return view('articles.edit', compact( 'article'));
     }
 
-    public function update(Article $slug, UpdateArticleRequest $request)
+    public function update(Article $article, UpdateArticleRequest $request)
     {
-        $slug->update($request->rules());
+        $article->update($request->validated());
+
+        TagsSynchronizer::sync(Tag::makeCollection(request('tags')), $article);
+
         return redirect()->route('main');
     }
 
-    public function destroy(Article $slug)
+    public function destroy(Article $article)
     {
-        $slug->delete();
+        $article->delete();
         return redirect()->route('main');
     }
 }

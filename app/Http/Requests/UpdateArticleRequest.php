@@ -27,7 +27,7 @@ class UpdateArticleRequest extends FormRequest
             'name' => 'required|min:5|max:100',
             'description' => 'required|max:255',
             'text' => 'required',
-            'release' => '',
+            'release' =>'',
         ];
     }
 }

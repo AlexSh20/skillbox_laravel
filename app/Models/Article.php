@@ -13,9 +13,14 @@ class Article extends Model
         return 'slug';
     }
 
-    public function scopePublished ($query)
+    public function scopePublished($query)
     {
         return $query->where('release', 1);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class,'tag_article');
     }
 
 

@@ -13,7 +13,7 @@
         @include('layout.errors')
 
         <div class="blog-post">
-            <form method="post" action="/articles/{{ $slug->slug }}">
+            <form method="post" action="/articles/{{ $article->slug }}">
                 @csrf
                 @method('PATCH')
 
@@ -22,7 +22,7 @@
                 <button type="submit" class="btn btn-primary">Редактировать статью</button>
             </form>
 
-            <form method="post" action="/articles/{{ $slug->slug }}">
+            <form method="post" action="/articles/{{ $article->slug }}">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-primary">Удалить</button>
