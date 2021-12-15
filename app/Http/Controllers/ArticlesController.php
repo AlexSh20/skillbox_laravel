@@ -11,6 +11,13 @@ use function Webmozart\Assert\Tests\StaticAnalysis\resource;
 
 class ArticlesController extends Controller
 {
+    protected $tagsSynchronizer;
+
+    public function __construct(TagsSynchronizer $tagsSynchronizer)
+    {
+        $this->tagsSynchronizer = $tagsSynchronizer;
+    }
+
     public function index()
     {
         $articles = Article::with('tags')->published()->get();
@@ -25,7 +32,7 @@ class ArticlesController extends Controller
     public function store(NewArticleRequest $request)
     {
         $article = Article::create($request->validated());
-        TagsSynchronizer::sync(Tag::makeCollection(request('tags')), $article);
+        $this->tagsSynchronizer->sync(Tag::makeCollection(request('tags')), $article);
 
         return redirect()->route('main');
     }
@@ -44,7 +51,7 @@ class ArticlesController extends Controller
     {
         $article->update($request->validated());
 
-        TagsSynchronizer::sync(Tag::makeCollection(request('tags')), $article);
+        $this->tagsSynchronizer->sync(Tag::makeCollection(request('tags')), $article);
 
         return redirect()->route('main');
     }
