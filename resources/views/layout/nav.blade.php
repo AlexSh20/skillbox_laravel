@@ -16,7 +16,38 @@
                         <line x1="21" y1="21" x2="15.8" y2="15.8"></line>
                     </svg>
                 </a>
-                <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
+                @guest
+                    @if (Route::has('login'))
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('login') }}">{{ __('Войти') }}</a>
+                    @endif
+
+                    @if (Route::has('register'))
+                        <a class="btn btn-sm btn-outline-secondary"
+                           href="{{ route('register') }}">{{ __('Зарегистироваться') }}</a>
+                    @endif
+                @else
+
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ Auth::user()->name }}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </div>
+
+                @endguest
+
+
             </div>
         </div>
     </header>
