@@ -29,6 +29,7 @@ class NewArticleRequest extends FormRequest
             'description' => 'required|max:255',
             'text' => 'required',
             'release' =>'',
+            'owner_id'=>''
         ];
     }
 }
