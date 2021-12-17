@@ -24,10 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        dd(Tag::tagsCloud());
-        /*
         view()->composer('layout.sidebar', function($view){
             $view->with('tagsCloud', Tag::tagsCloud());
-        });*/
+        });
     }
 }

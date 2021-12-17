@@ -16,6 +16,7 @@ class ArticlesController extends Controller
     public function __construct(TagsSynchronizer $tagsSynchronizer)
     {
         $this->tagsSynchronizer = $tagsSynchronizer;
+        $this->middleware('auth')->except('index', 'show');
     }
 
     public function index()
@@ -26,6 +27,7 @@ class ArticlesController extends Controller
 
     public function create()
     {
+
         return view('articles.create');
     }
 
