@@ -17,7 +17,7 @@ class ArticlesController extends Controller
     {
         $this->tagsSynchronizer = $tagsSynchronizer;
         $this->middleware('auth')->except(['index', 'show']);
-        $this->middleware('can:update,article')->except(['index', 'show']);
+        $this->middleware('can:update,article')->except(['index', 'show', 'store', 'create']);
     }
 
     public function index()
@@ -34,7 +34,9 @@ class ArticlesController extends Controller
 
     public function store(NewArticleRequest $request)
     {
-        $article = Article::create($request->validated());
+        $attribute = $request->validated();
+        $attribute ['owner_id'] = auth()->id();
+        $article = Article::create($attribute);
         $this->tagsSynchronizer->sync(Tag::makeCollection(request('tags')), $article);
 
         return redirect()->route('main');
@@ -59,7 +61,6 @@ class ArticlesController extends Controller
 
     public function destroy(Article $article)
     {
-        $this->authorize('update', $article);
         $article->delete();
         return redirect()->route('main');
     }
