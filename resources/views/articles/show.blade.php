@@ -19,7 +19,9 @@
         </div>
 
         <nav class="blog-pagination">
+            @can('update', $article)
             <a class="btn btn-outline-primary" href="/articles/{{ $article->slug }}/edit">Редактировать статью</a>
+            @endcan
             <a class="btn btn-outline-primary" href="/">К списку статей</a>
         </nav>
 

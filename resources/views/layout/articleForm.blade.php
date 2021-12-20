@@ -33,6 +33,7 @@
            placeholder="Добавьте тэги к статье" value="{{ old('tags', isset($article) ? $article->tags->pluck('name')->implode(',') : '') }}">
 </div>
 
+
 <div class="form-group form-check">
     <input type="checkbox" class="form-check-input" id="inputCheckbox"
            name="release" value="1"
