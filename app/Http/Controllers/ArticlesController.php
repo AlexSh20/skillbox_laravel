@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ArticleCreated;
+use App\Events\ArticleDeleted;
+use App\Events\ArticleUpdated;
 use App\Http\Requests\NewArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
@@ -23,7 +26,7 @@ class ArticlesController extends Controller
     public function index()
     {
         $articles = Article::with('tags')->published()->get();
-        return view('articles.index', compact( 'articles'));
+        return view('articles.index', compact('articles'));
     }
 
     public function create()
@@ -39,28 +42,33 @@ class ArticlesController extends Controller
         $article = Article::create($attribute);
         $this->tagsSynchronizer->sync(Tag::makeCollection(request('tags')), $article);
 
+        event(new ArticleCreated($article));
+
         return redirect()->route('main');
     }
 
     public function show(Article $article)
     {
-        return view('articles.show', compact( 'article'));
+        return view('articles.show', compact('article'));
     }
 
     public function edit(Article $article)
     {
-        return view('articles.edit', compact( 'article'));
+        return view('articles.edit', compact('article'));
     }
 
     public function update(Article $article, UpdateArticleRequest $request)
     {
         $article->update($request->validated());
         $this->tagsSynchronizer->sync(Tag::makeCollection(request('tags')), $article);
+
+        event(new ArticleUpdated($article));
         return redirect()->route('main');
     }
 
     public function destroy(Article $article)
     {
+        event(new ArticleDeleted($article));
         $article->delete();
         return redirect()->route('main');
     }

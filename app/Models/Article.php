@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Mail\ArticleCreated;
+use App\Mail\ArticleDeleted;
+use App\Mail\ArticleUpdated;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
@@ -20,7 +23,12 @@ class Article extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class,'tag_article');
+        return $this->belongsToMany(Tag::class, 'tag_article');
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
     }
 
 
