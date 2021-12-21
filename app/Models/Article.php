@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Mail\ArticleCreated;
-use App\Mail\ArticleDeleted;
-use App\Mail\ArticleUpdated;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
