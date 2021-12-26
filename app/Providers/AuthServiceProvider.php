@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         \App\Models\Article::class => \App\Policies\ArticlePolicy::class,
+        \App\Models\User::class => \App\Policies\AdminPolicy::class,
     ];
 
     /**
@@ -26,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         $gate->before (function ($user){
-            if($user->id == 2){
+            if($user->isAdmin()){
                 return true;
             }
         });

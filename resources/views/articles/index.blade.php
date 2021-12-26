@@ -10,22 +10,22 @@
             Главная страница
         </h3>
 
-        @foreach($articles as $article)
-            <div class="blog-post">
-                <h2 class="blog-post-title"><a href="/articles/{{ $article->slug }}">{{ $article->name }}</a></h2>
-                <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString() }}</p>
+            @foreach($articles as $article)
+                <div class="blog-post">
+                    <h2 class="blog-post-title"><a href="/articles/{{ $article->slug }}">{{ $article->name }}</a></h2>
+                    <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString() }}</p>
 
-                @include('articles.tags', ['tags' =>$article->tags])
+                    @include('articles.tags', ['tags' =>$article->tags])
 
-                <p>{{ $article->description }}</p>
-                <hr>
-            </div>
-        @endforeach
+                    <p>{{ $article->description }}</p>
+                    <hr>
+                </div>
+            @endforeach
 
-        <nav class="blog-pagination">
-            <a class="btn btn-outline-primary" href="#">Older</a>
-            <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
-        </nav>
+            <nav class="blog-pagination">
+                <a class="btn btn-outline-primary" href="#">Older</a>
+                <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
+            </nav>
 
     </div><!-- /.blog-main -->
 
