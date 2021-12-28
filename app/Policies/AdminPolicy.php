@@ -16,6 +16,6 @@ class AdminPolicy
      */
     public function enter(User $user)
     {
-        return $user->isAdmin() == true;
+        return $user->isAdmin();
     }
 }
