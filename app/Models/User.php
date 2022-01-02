@@ -45,4 +45,14 @@ class User extends Authenticatable
     public function articles(){
         return $this->hasMany(Article::class,'owner_id');
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_role');
+    }
+
+    public function isAdmin()
+    {
+        return $this->roles()->where('name', 'admin')->exists();
+    }
 }
