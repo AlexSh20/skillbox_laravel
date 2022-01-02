@@ -17,16 +17,9 @@ class DefaultAdmin extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => env('ADMIN_DEFAULT_LOGIN'),
-            'email' => env('ADMIN_DEFAULT_MAIL'),
-            'password' => Hash::make(env('ADMIN_DEFAULT_PASSWORD')),
-        ]);
 
-        DB::table('user_role')->insert([
-            'user_id' => User::where('name', env('ADMIN_DEFAULT_LOGIN'))->first()->id,
-            'role_id' => Role::where('name', 'admin')->first()->id,
-        ]);
+
+
 
     }
 }

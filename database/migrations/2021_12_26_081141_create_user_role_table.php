@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateUserRoleTable extends Migration
@@ -21,6 +24,11 @@ class CreateUserRoleTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('role_id')->references('id')->on('role')->onDelete('cascade');
         });
+
+        DB::table('user_role')->insert([
+            'user_id' => User::where('name', env('ADMIN_DEFAULT_LOGIN'))->first()->id,
+            'role_id' => Role::where('name', 'admin')->first()->id,
+        ]);
     }
 
     /**
