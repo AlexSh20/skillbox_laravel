@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Services\TagsSynchronizer;
+use function Webmozart\Assert\Tests\StaticAnalysis\inArray;
 use function Webmozart\Assert\Tests\StaticAnalysis\resource;
 
 class ArticlesController extends Controller
