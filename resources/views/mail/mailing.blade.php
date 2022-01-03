@@ -3,7 +3,6 @@
     @foreach($articles as $article)
         {{$article->name}}
     @endforeach
-    
-    Спасибо за внимание,<br>
-    {{ config('app.name') }}
+
+    Спасибо за внимание!
 @endcomponent<?php

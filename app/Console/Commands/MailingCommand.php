@@ -14,7 +14,7 @@ class MailingCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:mailing {user} {period}';
+    protected $signature = 'app:mailing {period} {users?}';
 
     /**
      * The console command description.
@@ -40,8 +40,10 @@ class MailingCommand extends Command
      */
     public function handle()
     {
-        $user = User::findOrFail($this->argument('user'));
-        $user->notify(new NewArticles($this->argument('period')));
+        $users = $this->argument('users')
+            ? User::findOrFail($this->argument('users'))
+            : User::all();
+        $users->map->notify(new NewArticles($this->argument('period')));
         return Command::SUCCESS;
     }
 }

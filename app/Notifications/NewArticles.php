@@ -12,17 +12,19 @@ use Illuminate\Notifications\Notification;
 class NewArticles extends Notification
 {
     use Queueable;
-    protected $periodDays;
+
+    protected $period;
     protected $articles;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Article $article, $periodDays)
+    public function __construct($period)
     {
-        $this->articles =  Article::whereDate('created_at', '>', Carbon::now()->subDays($periodDays))->get();
-        $this->periodDays = $periodDays;
+        $this->articles = Article::whereDate('created_at', '>', Carbon::now()->subDays($period))->get();
+        $this->period = $period;
     }
 
     /**
@@ -44,18 +46,9 @@ class NewArticles extends Notification
      */
     public function toMail($notifiable)
     {
-        return $this->markdown('mail.article-created');
-        /*
         return (new MailMessage)
-            ->subject('Новые статьи за '.$this->periodDays.' дней')
-            ->line('Здравствуйте '.$notifiable->name.', вот свежая подборка статей за '.$this->periodDays.' дней')
-            foreach($articles as $article){
-                ->line('Здравствуйте '.$notifiable->name.', вот свежая подборка статей за '.$this->periodDays.' дней')
-            }
-            ->action('Перейти на сайт', url('/'))
-            ->line('Спасибо!');
-          */
-
+            ->subject('Новые статьи за ' . $this->period . ' дней')
+            ->markdown('mail.mailing', ['period' => $this->period, 'articles' => $this->articles]);
     }
 
     /**

@@ -27,9 +27,6 @@ class ArticlesController extends Controller
 
     public function index()
     {
-        //$num = Article::whereDate('created_at', '>', Carbon::now()->subDays(30))->count();
-       // dd($num);
-
         $articles = Article::with('tags')->published()->get();
         return view('articles.index', compact('articles'));
     }
