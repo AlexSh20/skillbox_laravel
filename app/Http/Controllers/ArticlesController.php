@@ -10,7 +10,9 @@ use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Services\TagsSynchronizer;
+use function Webmozart\Assert\Tests\StaticAnalysis\inArray;
 use function Webmozart\Assert\Tests\StaticAnalysis\resource;
+use Carbon\Carbon;
 
 class ArticlesController extends Controller
 {
@@ -25,6 +27,9 @@ class ArticlesController extends Controller
 
     public function index()
     {
+        //$num = Article::whereDate('created_at', '>', Carbon::now()->subDays(30))->count();
+       // dd($num);
+
         $articles = Article::with('tags')->published()->get();
         return view('articles.index', compact('articles'));
     }
