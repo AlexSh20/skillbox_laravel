@@ -20,7 +20,7 @@ class ArticleFactory extends Factory
             'name' => $this->faker->sentence(3,true),
             'description' => $this->faker->sentence(20,true),
             'text' => $this->faker->realText(),
-            'release'=>'1'
+            'release' => '1'
         ];
     }
 }
