@@ -9,7 +9,6 @@ use App\Http\Requests\NewArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Models\Tag;
-use App\Services\Pushall;
 use App\Services\TagsSynchronizer;
 
 class ArticlesController extends Controller
@@ -34,7 +33,7 @@ class ArticlesController extends Controller
         return view('articles.create');
     }
 
-    public function store(NewArticleRequest $request, Pushall $pushall)
+    public function store(NewArticleRequest $request)
     {
         $attribute = $request->validated();
         $attribute ['owner_id'] = auth()->id();
