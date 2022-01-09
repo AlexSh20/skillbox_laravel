@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 namespace Database\Seeders;
@@ -21,5 +20,4 @@ class DatabaseSeeder extends Seeder
         $this->call(ArticleTableSeeder::class);
     }
 }
-=======
->>>>>>> command
+
