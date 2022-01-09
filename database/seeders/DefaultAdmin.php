@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 
 namespace Database\Seeders;
@@ -23,3 +24,5 @@ class DefaultAdmin extends Seeder
 
     }
 }
+=======
+>>>>>>> command

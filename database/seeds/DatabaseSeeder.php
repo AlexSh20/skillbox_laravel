@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 
 use Illuminate\Database\Seeder;
@@ -15,3 +16,5 @@ class DatabaseSeeder extends Seeder
          $this->call(UserTableSeeder::class);
     }
 }
+=======
+>>>>>>> command
