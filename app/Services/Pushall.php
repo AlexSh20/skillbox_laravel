@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
+use GuzzleHttp\Client;
+
 class Pushall
 {
     private $id;
     private $apiKey;
 
-    protected $url = 'https://pushall.ru/api.php';
+    const URL = 'https://pushall.ru/api.php';
 
     public function __construct($apiKey, $id)
     {
@@ -25,19 +27,7 @@ class Pushall
             "title" => $title
         ];
 
-        $client = new \GuzzleHttp\Client(['base_uri' => $this->url]);
+        $client = new Client(['base_uri' => self::URL]);
         return $client->post('', ['form_params' => $data]);
-
-        /*
-          curl_setopt_array($ch = curl_init(), [
-            CURLOPT_URL => $this->url,
-            CURLOPT_POSTFIELDS => $data,
-            CURLOPT_RETURNTRANSFER => true,
-        ]);
-        $result = curl_exec($ch); //получить ответ или ошибку
-        curl_close($ch);
-        return $result;
-        */
     }
-
 }

@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\ArticleCreated;
-use App\Providers\PushAllServiceProvider;
 use App\Services\Pushall;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
