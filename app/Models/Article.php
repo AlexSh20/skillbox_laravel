@@ -51,5 +51,11 @@ class Article extends Model
             ->withPivot(['before', 'after'])->withTimestamps();
     }
 
+    public function comments()
+    {
+        return $this->belongsToMany(User::class, 'comments')
+            ->withPivot(['text'])->withTimestamps();
+    }
+
 
 }

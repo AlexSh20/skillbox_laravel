@@ -18,9 +18,39 @@
             <hr>
         </div>
 
+        @if (Auth::user())
+
+            @include('layout.errors')
+
+            <h3 id="comment-form">Ваш комментарий</h3>
+            <form method="post" action="/articles/{{ $article->slug }}/comment">
+                @csrf
+
+                <div class="form-group">
+        <textarea class="form-control" name="text" placeholder="Текст комментария"
+                  maxlength="500" rows="4">{{ old('text', $comment->text ?? '') }}</textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </div>
+            </form>
+        @endif
+
+        <hr>
+
+        @forelse($article->comments as $comment)
+
+            <p><b>Комментарий:</b>  {{ $comment->pivot->text}}</p>
+            <p>Дата: {{ $comment->pivot->created_at->diffForHumans() }}</p>
+            <p>Автор: {{ $comment->name }}</p>
+        @empty
+            <p>К статье нет комментариев</p>
+        @endforelse
+
         <hr>
         @forelse($article->history as $item)
-            <p>{{ $item->email}} - {{ $item->pivot->created_at->diffForHumans() }} - {{ $item->pivot->before }} - {{ $item->pivot->after }}</p>
+            <p>{{ $item->email}} - {{ $item->pivot->created_at->diffForHumans() }} - {{ $item->pivot->before }}
+                - {{ $item->pivot->after }}</p>
         @empty
             <p>Нет истории изменений</p>
         @endforelse
