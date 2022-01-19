@@ -18,9 +18,16 @@
             <hr>
         </div>
 
+        <hr>
+        @forelse($article->history as $item)
+            <p>{{ $item->email}} - {{ $item->pivot->created_at->diffForHumans() }} - {{ $item->pivot->before }} - {{ $item->pivot->after }}</p>
+        @empty
+            <p>Нет истории изменений</p>
+        @endforelse
+
         <nav class="blog-pagination">
             @can('update', $article)
-            <a class="btn btn-outline-primary" href="/articles/{{ $article->slug }}/edit">Редактировать статью</a>
+                <a class="btn btn-outline-primary" href="/articles/{{ $article->slug }}/edit">Редактировать статью</a>
             @endcan
             <a class="btn btn-outline-primary" href="/">К списку статей</a>
         </nav>
