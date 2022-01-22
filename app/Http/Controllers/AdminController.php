@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Feedback;
 use App\Models\Article;
+use App\Models\News;
 
 class AdminController extends Controller
 {
@@ -15,9 +16,8 @@ class AdminController extends Controller
 
     public function index()
     {
-        $title = "Посмотреть обращения";
         $feedbacks = Feedback::orderByDesc('created_at')->get();
-        return view('admin.feedback', compact('title','feedbacks'));
+        return view('admin.feedback', compact('feedbacks'));
     }
 
     public function store()
@@ -41,6 +41,12 @@ class AdminController extends Controller
     {
         $articles = Article::with('tags')->get();
         return view('articles.index', compact('articles'));
+    }
+
+    public function news()
+    {
+        $news = News::orderByDesc('created_at')->get();
+        return view('admin.news', compact('news'));
     }
 
 }

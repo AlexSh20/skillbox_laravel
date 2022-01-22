@@ -16,10 +16,15 @@ Route::get('/about', 'AboutController@index');
 Route::get('/admin/feedback', 'AdminController@index');
 Route::post('/admin/feedback', 'AdminController@store');
 Route::get('/admin/articles', 'AdminController@article');
+Route::get('/admin/news', 'AdminController@news')->name('admin_news');
 
 Route::get('/contacts', 'ContactsController@index')->name('contacts');
 
 Auth::routes();
 
 Route::post('/articles/{article}/comment', 'ArticlesController@comment')->name('comment');
+
+Route::resource('/news','NewsController');
+
+
 
