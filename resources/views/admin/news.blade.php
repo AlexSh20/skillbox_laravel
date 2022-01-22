@@ -37,6 +37,8 @@
 
         </div>
 
+        {{ $news->links() }}
+
     </div><!-- /.blog-main -->
 
 @endsection

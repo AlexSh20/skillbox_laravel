@@ -39,13 +39,13 @@ class AdminController extends Controller
 
     public function article()
     {
-        $articles = Article::with('tags')->get();
+        $articles = Article::with('tags')->simplePaginate(20);
         return view('articles.index', compact('articles'));
     }
 
     public function news()
     {
-        $news = News::orderByDesc('created_at')->get();
+        $news = News::orderByDesc('created_at')->simplePaginate(20);
         return view('admin.news', compact('news'));
     }
 
