@@ -26,6 +26,7 @@ class UpdateNewsRequest extends FormRequest
         return [
             'name' => 'required',
             'text' => 'required|max:500',
+            'published' => '',
         ];
     }
 }

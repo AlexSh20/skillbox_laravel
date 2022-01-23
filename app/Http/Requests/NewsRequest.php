@@ -24,8 +24,9 @@ class NewsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:App\Models\News,name',
+            'name' => 'required|unique:news,name',
             'text' => 'required|max:500',
+            'published' => '',
         ];
     }
 }

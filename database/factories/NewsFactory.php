@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+
 class NewsFactory extends Factory
 {
     /**
@@ -16,6 +17,7 @@ class NewsFactory extends Factory
         return [
             'name' => $this->faker->sentence(3,true),
             'text' => $this->faker->realText(),
+            'published' => $this->faker->numberBetween(0,1),
         ];
     }
 }

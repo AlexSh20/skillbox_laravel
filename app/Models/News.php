@@ -10,4 +10,9 @@ class News extends Model
     use HasFactory;
     public $guarded = [];
 
+    public function scopePublished($query)
+    {
+        return $query->where('published', 1);
+    }
+
 }

@@ -21,7 +21,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::orderByDesc('created_at')->get();
+        $news = News::orderByDesc('created_at')->published()->simplePaginate(10);
         return view('news.index', compact('news'));
     }
 
@@ -43,8 +43,8 @@ class NewsController extends Controller
      */
     public function store(NewsRequest $request)
     {
-        $attribute = $request->validated();
-        News::create($attribute);
+        $information = $request->validated();
+        News::create($information);
 
         return redirect()->route('admin_news');;
     }
