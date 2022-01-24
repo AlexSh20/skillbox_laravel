@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Feedback;
 use App\Models\Article;
-use App\Models\News;
 
 class AdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
-        $this->middleware('can:enter,user')->except(['index', 'store', 'create','article']);
+        $this->middleware('auth');
     }
 
     public function index()
@@ -42,10 +41,6 @@ class AdminController extends Controller
         return view('articles.index', compact('articles'));
     }
 
-    public function news()
-    {
-        $news = News::orderByDesc('created_at')->simplePaginate(20);
-        return view('admin.news', compact('news'));
-    }
+
 
 }

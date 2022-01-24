@@ -10,7 +10,7 @@
             Управление новостями
         </h3>
 
-        <div><a type="submit" class="btn btn-primary" href="/news/create">Создать новость</a></div>
+        <div><a type="submit" class="btn btn-primary" href="/admin/news/create">Создать новость</a></div>
 
         <div class="blog-post">
             <div class="row">
@@ -24,9 +24,9 @@
                 <div class="row">
                     <div class="column col-sm">{{ $item->name }}</div>
                     <div class="column  col-sm">{{ $item->text }}</div>
-                    <div class="column  col-sm"><a type="submit" class="btn btn-primary" href="/news/{{ $item->id }}/edit">Редактировать</a></div>
+                    <div class="column  col-sm"><a type="submit" class="btn btn-primary" href="/admin/news/{{ $item->id }}/edit">Редактировать</a></div>
                     <div class="column  col-sm">
-                        <form method="post" action="/news/{{ $item->id }}">
+                        <form method="post" action="/admin/news/{{ $item->id }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-primary">Удалить</button>
@@ -36,6 +36,8 @@
             @endforeach
 
         </div>
+
+        {{ $news->links() }}
 
     </div><!-- /.blog-main -->
 
