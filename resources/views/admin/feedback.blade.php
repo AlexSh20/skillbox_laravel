@@ -1,9 +1,13 @@
 @extends('layout.master')
 
+@section('title')
+    Отзывы пользователей
+@endsection
+
 @section('content')
         <div class="col-md-8 blog-main">
             <h3 class="pb-3 mb-4 font-italic border-bottom">
-                {{ $title }}
+                Отзывы пользователей
             </h3>
 
             <div class="blog-post">

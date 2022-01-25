@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Feedback;
 use App\Models\Article;
 
@@ -9,15 +10,13 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
-        $this->middleware('can:enter,user')->except(['index', 'store', 'create','article']);
+        $this->middleware('auth');
     }
 
     public function index()
     {
-        $title = "Посмотреть обращения";
         $feedbacks = Feedback::orderByDesc('created_at')->get();
-        return view('admin.feedback', compact('title','feedbacks'));
+        return view('admin.feedback', compact('feedbacks'));
     }
 
     public function store()
@@ -34,13 +33,14 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('contacts');
-
     }
 
     public function article()
     {
-        $articles = Article::with('tags')->get();
+        $articles = Article::with('tags')->simplePaginate(20);
         return view('articles.index', compact('articles'));
     }
+
+
 
 }
