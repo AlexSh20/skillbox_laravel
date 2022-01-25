@@ -6,7 +6,7 @@ use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 
-class AdminRules
+class AdminAuthenticate
 {
     /**
      * Handle an incoming request.
