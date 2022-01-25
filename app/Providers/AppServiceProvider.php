@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Tag;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('admin', function (){
             return auth()->check() && auth()->user()->isAdmin();
         });
+
+        Paginator::defaultSimpleView('pagination::simple-default');
 
     }
 }
