@@ -13,11 +13,11 @@ class CreateTagArticleTable extends Migration
      */
     public function up()
     {
-        Schema::create('tag_article', function (Blueprint $table) {
-            $table->unsignedInteger('article_id');
+        Schema::create('taggables', function (Blueprint $table) {
             $table->unsignedInteger('tag_id');
-            $table->primary(['article_id','tag_id']);
-            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
+            $table->morphs('taggable');
+            $table->primary(['tag_id', 'taggable_id', 'taggable_type']);
+
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
         });
     }
@@ -29,6 +29,6 @@ class CreateTagArticleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tag_article');
+        Schema::dropIfExists('taggables');
     }
 }

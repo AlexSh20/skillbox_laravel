@@ -63,6 +63,7 @@
             <a class="p-2 text-muted" href="/admin/feedback">Комментарии</a>
             <a class="p-2 text-muted" href="/admin/articles">Управление статьями</a>
             <a class="p-2 text-muted" href="/admin/news">Управление новостями</a>
+            <a class="p-2 text-muted" href="/admin/statistics">Статистика</a>
                 @endadmin
 
         </nav>

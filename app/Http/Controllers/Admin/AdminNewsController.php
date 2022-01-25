@@ -6,12 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use App\Models\News;
+use App\Models\Tag;
+use App\Services\TagsSynchronizer;
 use Illuminate\Http\Request;
 
 class AdminNewsController extends Controller
 {
-    public function __construct()
+    protected $tagsSynchronizer;
+
+    public function __construct(TagsSynchronizer $tagsSynchronizer)
     {
+        $this->tagsSynchronizer = $tagsSynchronizer;
         $this->middleware('auth');
         $this->middleware('admin');
     }
@@ -46,7 +51,8 @@ class AdminNewsController extends Controller
     public function store(NewsRequest $request)
     {
         $information = $request->validated();
-        News::create($information);
+        $news = News::create($information);
+        $this->tagsSynchronizer->sync(Tag::makeCollection(request('tags')), $news);
 
         return redirect()->route('admin_news');;
     }
@@ -72,6 +78,7 @@ class AdminNewsController extends Controller
     public function update(UpdateNewsRequest $request, News $news)
     {
         $news->update($request->validated());
+        $this->tagsSynchronizer->sync(Tag::makeCollection(request('tags')), $news);
         return redirect()->route('admin_news');
     }
 

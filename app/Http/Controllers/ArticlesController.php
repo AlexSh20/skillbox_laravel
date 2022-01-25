@@ -26,7 +26,7 @@ class ArticlesController extends Controller
 
     public function index()
     {
-        $articles = Article::with('tags')->published()->get();
+        $articles = Article::with('tags')->published()->simplePaginate(10);
         return view('articles.index', compact('articles'));
     }
 
@@ -77,11 +77,10 @@ class ArticlesController extends Controller
     {
         $attribute = $request->validated();
         $attribute ['user_id'] = auth()->id();
-        $attribute ['article_id'] = $article->id;
-        Comment::create($attribute);
+        $comment = Comment::create($attribute);
+        $article->comments()->save($comment);
 
         return redirect()->back();
     }
-
 
 }

@@ -15,6 +15,7 @@ Route::get('/', 'ArticlesController@index')->name('main');
 Route::get('/about', 'AboutController@index');
 Route::get('/admin/feedback', 'Admin\AdminController@index');
 Route::post('/admin/feedback', 'Admin\AdminController@store');
+Route::get('/admin/statistics', 'Admin\AdminController@statistics');
 Route::get('/admin/articles', 'Admin\AdminController@article');
 
 Route::get('/contacts', 'ContactsController@index')->name('contacts');
@@ -22,6 +23,7 @@ Route::get('/contacts', 'ContactsController@index')->name('contacts');
 Auth::routes();
 
 Route::post('/articles/{article}/comment', 'ArticlesController@comment')->name('comment');
+Route::post('/news/{news}/comment', 'NewsController@comment')->name('comment_news');
 
 Route::resource('/news','NewsController');
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewCommentRequest;
+use App\Models\Comment;
 use App\Models\News;
 
 class NewsController extends Controller
@@ -21,6 +23,16 @@ class NewsController extends Controller
     public function show(News $news)
     {
         return view('news.show', compact('news'));
+    }
+
+    public function comment(NewCommentRequest $request, News $news)
+    {
+        $attribute = $request->validated();
+        $attribute ['user_id'] = auth()->id();
+        $comment = Comment::create($attribute);
+        $news->comments()->save($comment);
+
+        return redirect()->back();
     }
 
 }
