@@ -37,9 +37,9 @@ class ArticlesController extends Controller
 
     public function store(NewArticleRequest $request)
     {
-        $attribute = $request->validated();
-        $attribute ['owner_id'] = auth()->id();
-        $article = Article::create($attribute);
+        $validatedData = $request->validated();
+        $validatedData ['owner_id'] = auth()->id();
+        $article = Article::create($validatedData);
         $this->tagsSynchronizer->sync(Tag::makeCollection(request('tags')), $article);
 
         event(new ArticleCreated($article));
@@ -75,9 +75,9 @@ class ArticlesController extends Controller
 
     public function comment(NewCommentRequest $request, Article $article)
     {
-        $attribute = $request->validated();
-        $attribute ['user_id'] = auth()->id();
-        $comment = Comment::create($attribute);
+        $validatedData = $request->validated();
+        $validatedData ['user_id'] = auth()->id();
+        $comment = Comment::create($validatedData);
         $article->comments()->save($comment);
 
         return redirect()->back();

@@ -71,7 +71,8 @@ class AdminController extends Controller
             ->select(DB::raw('owner_id, COUNT(owner_id) as count'))
             ->havingRaw('count > ?', [1])
             ->groupBy('owner_id')
-            ->get();
+            ->avg('count');
+
 
         $mostChangeableArticle = DB::table('article_histories')
             ->select(DB::raw('COUNT(article_id) as count'))
@@ -90,6 +91,7 @@ class AdminController extends Controller
             ->orderByDesc('count')
             ->first();
 
+
         return view('admin.statistics', [
             'articlesCount' => $articlesCount,
             'newsCount' => $newsCount,
@@ -101,5 +103,5 @@ class AdminController extends Controller
             'mostDiscussedArticle' => $mostDiscussedArticle,
         ]);
     }
-    
+
 }

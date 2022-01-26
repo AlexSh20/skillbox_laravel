@@ -50,8 +50,8 @@ class AdminNewsController extends Controller
      */
     public function store(NewsRequest $request)
     {
-        $information = $request->validated();
-        $news = News::create($information);
+        $validatedData = $request->validated();
+        $news = News::create($validatedData);
         $this->tagsSynchronizer->sync(Tag::makeCollection(request('tags')), $news);
 
         return redirect()->route('admin_news');;

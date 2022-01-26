@@ -27,9 +27,9 @@ class NewsController extends Controller
 
     public function comment(NewCommentRequest $request, News $news)
     {
-        $attribute = $request->validated();
-        $attribute ['user_id'] = auth()->id();
-        $comment = Comment::create($attribute);
+        $validatedData = $request->validated();
+        $validatedData ['user_id'] = auth()->id();
+        $comment = Comment::create($validatedData);
         $news->comments()->save($comment);
 
         return redirect()->back();

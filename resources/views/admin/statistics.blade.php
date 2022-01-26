@@ -51,21 +51,30 @@
                 <div class="column col-sm">Средние количество статей у активных пользователей (пользователь считается
                     активным, если у него более 1 статьи):
                 </div>
-                <div class="column  col-sm">  {{ round($averageNumberOfArticles->avg('count')) }}   </div>
+                <div class="column  col-sm"> {{ $averageNumberOfArticles }} </div>
             </div>
 
             <div class="row">
                 <div class="column col-sm"> Самая непостоянная(изменяемая) статья:</div>
-                <div class="column  col-sm"><a
-                        href="/articles/{{ $mostChangeableArticle->slug }}">{{ $mostChangeableArticle->name }}</a></div>
-            </div>
+                <div class="column  col-sm">
+                    @if($mostChangeableArticle)
+                        <a href="/articles/{{ $mostChangeableArticle->slug }}">{{ $mostChangeableArticle->name }}</a>
+                    @else
+                        нет данных
+                    @endif
 
+                </div>
+            </div>
 
             <div class="row">
                 <div class="column col-sm"> Самая обсуждаемая статья:</div>
-                <div class="column  col-sm"><a
-                        href="/articles/{{ $mostDiscussedArticle->slug }}">{{ $mostDiscussedArticle->name }}</a>
-                    - {{ $mostDiscussedArticle->count }} коммент.
+                <div class="column  col-sm">
+                    @if($mostDiscussedArticle)
+                        <a href="/articles/{{ $mostDiscussedArticle->slug }}">{{ $mostDiscussedArticle->name }}</a>
+                        - {{ $mostDiscussedArticle->count }} коммент.
+                    @else
+                        нет данных
+                    @endif
                 </div>
             </div>
 
