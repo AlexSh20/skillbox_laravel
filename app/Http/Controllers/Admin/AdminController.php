@@ -46,13 +46,6 @@ class AdminController extends Controller
     {
         $articlesCount = DB::table('articles')->count();
         $newsCount = DB::table('news')->count();
-<<<<<<< HEAD
-        return view('admin.statistics', [
-            'articlesCount' => $articlesCount,
-            'newsCount' => $newsCount,
-        ]);
-    }
-=======
 
         $mostProductiveAuthor = DB::table('articles')
             ->select(DB::raw('owner_id, COUNT(owner_id) as count'))
@@ -79,7 +72,6 @@ class AdminController extends Controller
             ->havingRaw('count > ?', [1])
             ->groupBy('owner_id')
             ->avg('count');
->>>>>>> polymorth
 
 
         $mostChangeableArticle = DB::table('article_histories')
