@@ -46,12 +46,70 @@ class AdminController extends Controller
     {
         $articlesCount = DB::table('articles')->count();
         $newsCount = DB::table('news')->count();
+<<<<<<< HEAD
         return view('admin.statistics', [
             'articlesCount' => $articlesCount,
             'newsCount' => $newsCount,
         ]);
     }
+=======
+
+        $mostProductiveAuthor = DB::table('articles')
+            ->select(DB::raw('owner_id, COUNT(owner_id) as count'))
+            ->groupBy('owner_id')
+            ->join('users', 'articles.owner_id', '=', 'users.id')
+            ->addSelect('users.name as name')
+            ->orderByDesc('count')
+            ->first();
+
+        $longestArticle = DB::table('articles')
+            ->select(DB::raw('*, LENGTH(text) as length'))
+            ->groupBy('id')
+            ->orderByDesc('length')
+            ->first();
+
+        $shortestArticle = DB::table('articles')
+            ->select(DB::raw('*, LENGTH(text) as length'))
+            ->groupBy('id')
+            ->orderBy('length', 'asc')
+            ->first();
+
+        $averageNumberOfArticles = DB::table('articles')
+            ->select(DB::raw('owner_id, COUNT(owner_id) as count'))
+            ->havingRaw('count > ?', [1])
+            ->groupBy('owner_id')
+            ->avg('count');
+>>>>>>> polymorth
 
 
+        $mostChangeableArticle = DB::table('article_histories')
+            ->select(DB::raw('COUNT(article_id) as count'))
+            ->groupBy('article_id')
+            ->join('articles', 'article_histories.article_id', '=', 'articles.id')
+            ->addSelect('name', 'slug')
+            ->orderByDesc('count')
+            ->first();
+
+        $mostDiscussedArticle = DB::table('comments')
+            ->select(DB::raw('commentable_id, COUNT(commentable_type) as count'))
+            ->where('commentable_type', 'like', '%Article%')
+            ->groupBy('commentable_id')
+            ->join('articles', 'comments.commentable_id', '=', 'articles.id')
+            ->addSelect('name', 'slug')
+            ->orderByDesc('count')
+            ->first();
+
+
+        return view('admin.statistics', [
+            'articlesCount' => $articlesCount,
+            'newsCount' => $newsCount,
+            'mostProductiveAuthor' => $mostProductiveAuthor,
+            'longestArticle' => $longestArticle,
+            'shortestArticle' => $shortestArticle,
+            'averageNumberOfArticles' => $averageNumberOfArticles,
+            'mostChangeableArticle' => $mostChangeableArticle,
+            'mostDiscussedArticle' => $mostDiscussedArticle,
+        ]);
+    }
 
 }

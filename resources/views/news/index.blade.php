@@ -15,6 +15,8 @@
                     <h2 class="blog-post-title"><a href="/news/{{ $item->id }}">{{ $item->name }}</a></h2>
                     <p class="blog-post-meta">{{ $item->created_at->toFormattedDateString() }}</p>
 
+                    @include('articles.tags', ['tags' =>$item->tags])
+
                     <p>{{ $item->text }}</p>
                     <hr>
                 </div>

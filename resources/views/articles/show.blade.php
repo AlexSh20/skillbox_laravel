@@ -40,9 +40,9 @@
 
         @forelse($article->comments as $comment)
 
-            <p><b>Комментарий:</b>  {{ $comment->pivot->text}}</p>
-            <p>Дата: {{ $comment->pivot->created_at->diffForHumans() }}</p>
-            <p>Автор: {{ $comment->name }}</p>
+            <p><b>Комментарий:</b> {{ $comment->text}}</p>
+            <p>Дата: {{ $comment->created_at->diffForHumans() }}</p>
+            <p>Автор: {{ $comment->user->name }}</p>
         @empty
             <p>К статье нет комментариев</p>
         @endforelse

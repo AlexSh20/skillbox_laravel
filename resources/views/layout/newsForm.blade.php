@@ -10,6 +10,12 @@
               rows="3">{{ old('text', $news->text ?? '') }}</textarea>
 </div>
 
+<div class="form-group">
+    <label for="inputTags">Тэги к новости</label>
+    <input type="text" class="form-control" id="inputTags" name="tags"
+           placeholder="Добавьте тэги к статье" value="{{ old('tags', isset($news) ? $news->tags->pluck('name')->implode(',') : '') }}">
+</div>
+
 <div class="form-group form-check">
     <input type="checkbox" class="form-check-input" id="inputCheckbox"
            name="published" value="1"

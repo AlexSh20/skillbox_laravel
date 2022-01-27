@@ -37,7 +37,7 @@ class Article extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'tag_article');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function owner()
@@ -53,8 +53,11 @@ class Article extends Model
 
     public function comments()
     {
+        /*
         return $this->belongsToMany(User::class, 'comments')
             ->withPivot(['text'])->withTimestamps();
+        */
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
 
