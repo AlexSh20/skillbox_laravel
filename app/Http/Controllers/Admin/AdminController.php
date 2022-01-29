@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminReportRequest;
+use App\Jobs\ResultReport;
 use App\Models\Feedback;
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -40,6 +43,17 @@ class AdminController extends Controller
     {
         $articles = Article::with('tags')->simplePaginate(20);
         return view('articles.index', compact('articles'));
+    }
+
+    public function reports()
+    {
+        return view('admin.reports');
+    }
+
+    public function sendReport(AdminReportRequest $request)
+    {
+        ResultReport::dispatch($request);
+        return redirect()->route('reports');
     }
 
     public function statistics()
