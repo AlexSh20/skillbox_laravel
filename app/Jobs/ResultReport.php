@@ -8,6 +8,7 @@ use App\Models\Comment;
 use App\Models\News;
 use App\Models\Tag;
 use App\Models\User;
+use App\Notifications\ReportSended;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -49,9 +50,12 @@ class ResultReport implements ShouldQueue
         isset($this->request['tags_checkbox']) == 'on' ? $report .= "<p>Тэгов: " . Tag::all()->count() . "</p>" : '';
         isset($this->request['users_checkbox']) == 'on' ? $report .= "<p>Пользователей: " . User::all()->count() . "</p>" : '';
 
+        auth()->user()->notify(new ReportSended($report));
+
+        /*
         \Mail::to(User::where('id', Auth()->id())->first())->send(
             new \App\Mail\ReportCreated($report)
-        );
+        );*/
 
     }
 }

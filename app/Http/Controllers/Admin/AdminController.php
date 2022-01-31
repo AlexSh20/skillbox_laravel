@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminReportRequest;
-use App\Jobs\ResultReport;
+use App\Jobs\ProcessReport;
+use App\Models\Comment;
 use App\Models\Feedback;
 use App\Models\Article;
+use App\Models\News;
+use App\Models\Tag;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -50,9 +53,16 @@ class AdminController extends Controller
         return view('admin.reports');
     }
 
-    public function sendReport(AdminReportRequest $request)
+    public function sendReport(Request $request)
     {
-        ResultReport::dispatch($request);
+        $report = "";
+        isset($request->all()['articles_checkbox']) == 'on' ? $report .= "<p>Статей: " . Article::all()->count() . "</p>" : '';
+        isset($request->all()['news_checkbox']) == 'on' ? $report .= "<p>Новостей: " . News::all()->count() . "</p>" : '';
+        isset($request->all()['comments_checkbox']) == 'on' ? $report .= "<p>Комментариев: " . Comment::all()->count() . "</p>" : '';
+        isset($request->all()['tags_checkbox']) == 'on' ? $report .= "<p>Тэгов: " . Tag::all()->count() . "</p>" : '';
+        isset($request->all()['users_checkbox']) == 'on' ? $report .= "<p>Пользователей: " . User::all()->count() . "</p>": '';
+
+        ProcessReport::dispatch($report);
         return redirect()->route('reports');
     }
 
