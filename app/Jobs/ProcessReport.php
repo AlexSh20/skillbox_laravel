@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\User;
 use App\Notifications\ReportSended;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -18,13 +19,15 @@ class ProcessReport implements ShouldQueue
     public $deleteWhenMissingModels = true;
 
     public $report;
+    public $user;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($report)
+    public function __construct(User $user, $report)
     {
+        $this->user = $user;
         $this->report = $report;
     }
 
@@ -35,6 +38,6 @@ class ProcessReport implements ShouldQueue
      */
     public function handle()
     {
-        auth()->user()->notify(new ReportSended($this->report));
+        Notification::send($this->user, new ReportSended($this->report));
     }
 }

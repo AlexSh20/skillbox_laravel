@@ -55,14 +55,14 @@ class AdminController extends Controller
 
     public function sendReport(Request $request)
     {
-        $report = "";
-        isset($request->all()['articles_checkbox']) == 'on' ? $report .= "<p>Статей: " . Article::all()->count() . "</p>" : '';
-        isset($request->all()['news_checkbox']) == 'on' ? $report .= "<p>Новостей: " . News::all()->count() . "</p>" : '';
-        isset($request->all()['comments_checkbox']) == 'on' ? $report .= "<p>Комментариев: " . Comment::all()->count() . "</p>" : '';
-        isset($request->all()['tags_checkbox']) == 'on' ? $report .= "<p>Тэгов: " . Tag::all()->count() . "</p>" : '';
-        isset($request->all()['users_checkbox']) == 'on' ? $report .= "<p>Пользователей: " . User::all()->count() . "</p>": '';
+        $report[] = "";
+        isset($request->all()['articles_checkbox']) == 'on' ? $report[] = "Статей: " . Article::all()->count() : '';
+        isset($request->all()['news_checkbox']) == 'on' ? $report[] = "Новостей: " . News::all()->count() : '';
+        isset($request->all()['comments_checkbox']) == 'on' ? $report []= "Комментариев: " . Comment::all()->count() : '';
+        isset($request->all()['tags_checkbox']) == 'on' ? $report [] = "Тэгов: " . Tag::all()->count() : '';
+        isset($request->all()['users_checkbox']) == 'on' ? $report[] = "Пользователей: " . User::all()->count() : '';
 
-        ProcessReport::dispatch($report);
+        ProcessReport::dispatch(auth()->user(), $report);
         return redirect()->route('reports');
     }
 

@@ -1,5 +1,9 @@
 @component('mail::message')
-    # Ваш отчет: {{$report}}
+    # Ваш отчет:
+
+    @foreach ($report as $string)
+        {{ $string}}
+    @endforeach
 
     Спасибо за внимание,<br>
     {{ config('app.name') }}
