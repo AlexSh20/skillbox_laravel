@@ -3,8 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessReport;
+use App\Models\Comment;
 use App\Models\Feedback;
 use App\Models\Article;
+use App\Models\News;
+use App\Models\Tag;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -40,6 +46,24 @@ class AdminController extends Controller
     {
         $articles = Article::with('tags')->simplePaginate(20);
         return view('articles.index', compact('articles'));
+    }
+
+    public function reports()
+    {
+        return view('admin.reports');
+    }
+
+    public function sendReport(Request $request)
+    {
+        $report[] = "";
+        isset($request->all()['articles_checkbox']) == 'on' ? $report[] = "Статей: " . Article::all()->count() : '';
+        isset($request->all()['news_checkbox']) == 'on' ? $report[] = "Новостей: " . News::all()->count() : '';
+        isset($request->all()['comments_checkbox']) == 'on' ? $report []= "Комментариев: " . Comment::all()->count() : '';
+        isset($request->all()['tags_checkbox']) == 'on' ? $report [] = "Тэгов: " . Tag::all()->count() : '';
+        isset($request->all()['users_checkbox']) == 'on' ? $report[] = "Пользователей: " . User::all()->count() : '';
+
+        ProcessReport::dispatch(auth()->user(), $report);
+        return redirect()->route('reports');
     }
 
     public function statistics()

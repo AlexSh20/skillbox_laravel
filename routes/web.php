@@ -17,6 +17,8 @@ Route::get('/admin/feedback', 'Admin\AdminController@index');
 Route::post('/admin/feedback', 'Admin\AdminController@store');
 Route::get('/admin/statistics', 'Admin\AdminController@statistics');
 Route::get('/admin/articles', 'Admin\AdminController@article');
+Route::get('/admin/reports', 'Admin\AdminController@reports')->name('reports');
+Route::post('/admin/reports', 'Admin\AdminController@sendReport');
 
 Route::get('/contacts', 'ContactsController@index')->name('contacts');
 
