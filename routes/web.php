@@ -36,3 +36,15 @@ Route::resource('/admin/news','Admin\AdminNewsController', [
 ]);
 
 
+Route::get('/event', function (){
+    event(new \App\Events\SomethingHappend('Привет статья'));
+});
+
+Route::get('/listen', function (){
+   return view('listen');
+});
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

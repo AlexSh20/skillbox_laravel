@@ -10,6 +10,7 @@
             Главная страница
         </h3>
 
+
             @foreach($articles as $article)
                 <div class="blog-post">
                     <h2 class="blog-post-title"><a href="/articles/{{ $article->slug }}">{{ $article->name }}</a></h2>

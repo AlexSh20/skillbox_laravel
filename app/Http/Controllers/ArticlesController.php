@@ -54,6 +54,7 @@ class ArticlesController extends Controller
 
     public function edit(Article $article)
     {
+
         return view('articles.edit', compact('article'));
     }
 

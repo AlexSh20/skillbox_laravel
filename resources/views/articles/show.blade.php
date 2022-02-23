@@ -10,7 +10,20 @@
             {{ $article->name }}
         </h3>
 
+
+
+
+
+
+        <div id="app">
+            <article-updated v-bind:article-slug="{{ $article }}"></article-updated>
+        </div>
+
+
+        <script src="{{ asset('js/app.js') }}"></script> <!-- add vue elements -->
+
         @include('articles.tags', ['tags' =>$article->tags])
+
 
         <div class="blog-post">
             <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString()  }}</p>
