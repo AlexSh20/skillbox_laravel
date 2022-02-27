@@ -11,10 +11,6 @@
         </h3>
 
 
-
-
-
-
         <div id="app">
             <article-updated v-bind:article-slug="{{ $article }}"></article-updated>
         </div>

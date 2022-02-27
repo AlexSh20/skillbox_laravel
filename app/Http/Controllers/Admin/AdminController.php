@@ -58,7 +58,7 @@ class AdminController extends Controller
         $report[] = "";
         isset($request->all()['articles_checkbox']) == 'on' ? $report[] = "Статей: " . Article::all()->count() : '';
         isset($request->all()['news_checkbox']) == 'on' ? $report[] = "Новостей: " . News::all()->count() : '';
-        isset($request->all()['comments_checkbox']) == 'on' ? $report []= "Комментариев: " . Comment::all()->count() : '';
+        isset($request->all()['comments_checkbox']) == 'on' ? $report [] = "Комментариев: " . Comment::all()->count() : '';
         isset($request->all()['tags_checkbox']) == 'on' ? $report [] = "Тэгов: " . Tag::all()->count() : '';
         isset($request->all()['users_checkbox']) == 'on' ? $report[] = "Пользователей: " . User::all()->count() : '';
 
@@ -68,53 +68,69 @@ class AdminController extends Controller
 
     public function statistics()
     {
-        $articlesCount = DB::table('articles')->count();
-        $newsCount = DB::table('news')->count();
+        $articlesCount = \Cache::tags(['articles', 'statistics'])->remember('articlesCount', 3600 * 24 * 7 * 4, function () {
+            return DB::table('articles')->count();
+        });
 
-        $mostProductiveAuthor = DB::table('articles')
-            ->select(DB::raw('owner_id, COUNT(owner_id) as count'))
-            ->groupBy('owner_id')
-            ->join('users', 'articles.owner_id', '=', 'users.id')
-            ->addSelect('users.name as name')
-            ->orderByDesc('count')
-            ->first();
+        $newsCount = \Cache::tags(['news', 'statistics'])->remember('newsCount', 3600 * 24 * 7 * 4, function () {
+            return DB::table('news')->count();
+        });
 
-        $longestArticle = DB::table('articles')
-            ->select(DB::raw('*, LENGTH(text) as length'))
-            ->groupBy('id')
-            ->orderByDesc('length')
-            ->first();
+        $mostProductiveAuthor = \Cache::tags(['articles', 'statistics'])->remember('mostProductiveAuthor', 3600 * 24 * 7 * 4, function () {
+            return DB::table('articles')
+                ->select(DB::raw('owner_id, COUNT(owner_id) as count'))
+                ->groupBy('owner_id')
+                ->join('users', 'articles.owner_id', '=', 'users.id')
+                ->addSelect('users.name as name')
+                ->orderByDesc('count')
+                ->first();
+        });
 
-        $shortestArticle = DB::table('articles')
-            ->select(DB::raw('*, LENGTH(text) as length'))
-            ->groupBy('id')
-            ->orderBy('length', 'asc')
-            ->first();
+        $longestArticle = \Cache::tags(['articles', 'statistics'])->remember('longestArticle', 3600 * 24 * 7 * 4, function () {
+            return DB::table('articles')
+                ->select(DB::raw('*, LENGTH(text) as length'))
+                ->groupBy('id')
+                ->orderByDesc('length')
+                ->first();
+        });
 
-        $averageNumberOfArticles = DB::table('articles')
-            ->select(DB::raw('owner_id, COUNT(owner_id) as count'))
-            ->havingRaw('count > ?', [1])
-            ->groupBy('owner_id')
-            ->avg('count');
+        $shortestArticle = \Cache::tags(['articles', 'statistics'])->remember('shortestArticle', 3600 * 24 * 7 * 4, function () {
+            return DB::table('articles')
+                ->select(DB::raw('*, LENGTH(text) as length'))
+                ->groupBy('id')
+                ->orderBy('length', 'asc')
+                ->first();
+        });
+
+        $averageNumberOfArticles = \Cache::tags(['articles', 'statistics'])->remember('averageNumberOfArticles', 3600 * 24 * 7 * 4, function () {
+            return DB::table('articles')
+                ->select(DB::raw('owner_id, COUNT(owner_id) as count'))
+                ->havingRaw('count > ?', [1])
+                ->groupBy('owner_id')
+                ->avg('count');
+        });
+
+        $mostChangeableArticle = \Cache::tags(['articles', 'statistics'])->remember('mostChangeableArticle', 3600 * 24 * 7 * 4, function () {
+            return DB::table('article_histories')
+                ->select(DB::raw('COUNT(article_id) as count'))
+                ->groupBy('article_id')
+                ->join('articles', 'article_histories.article_id', '=', 'articles.id')
+                ->addSelect('name', 'slug')
+                ->orderByDesc('count')
+                ->first();
+        });
 
 
-        $mostChangeableArticle = DB::table('article_histories')
-            ->select(DB::raw('COUNT(article_id) as count'))
-            ->groupBy('article_id')
-            ->join('articles', 'article_histories.article_id', '=', 'articles.id')
-            ->addSelect('name', 'slug')
-            ->orderByDesc('count')
-            ->first();
-
-        $mostDiscussedArticle = DB::table('comments')
-            ->select(DB::raw('commentable_id, COUNT(commentable_type) as count'))
-            ->where('commentable_type', 'like', '%Article%')
-            ->groupBy('commentable_id')
-            ->join('articles', 'comments.commentable_id', '=', 'articles.id')
-            ->addSelect('name', 'slug')
-            ->orderByDesc('count')
-            ->first();
-
+        $mostDiscussedArticle = \Cache::tags(['comment', 'statistics'])->remember('mostDiscussedArticle', 3600 * 24 * 7 * 4, function () {
+            return DB::table('comments')
+                ->select(DB::raw('commentable_id, COUNT(commentable_type) as count'))
+                ->where('commentable_type', 'like', '%Article%')
+                ->groupBy('commentable_id')
+                ->join('articles', 'comments.commentable_id', '=', 'articles.id')
+                ->addSelect('name', 'slug')
+                ->orderByDesc('count')
+                ->first();
+        });
 
         return view('admin.statistics', [
             'articlesCount' => $articlesCount,
