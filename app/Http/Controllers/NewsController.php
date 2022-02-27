@@ -16,7 +16,10 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::orderByDesc('created_at')->published()->simplePaginate(10);
+        $news = \Cache::tags(['news'])->remember('news',3600*24*7,function (){
+            return News::orderByDesc('created_at')->published()->simplePaginate(10);
+        });
+
         return view('news.index', compact('news'));
     }
 

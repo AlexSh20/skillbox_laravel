@@ -28,7 +28,11 @@ class AdminNewsController extends Controller
      */
     public function index()
     {
-        $news = News::orderByDesc('created_at')->simplePaginate(20);
+
+        $news = \Cache::tags(['news'])->remember('news',3600*24*7,function (){
+            return News::orderByDesc('created_at')->simplePaginate(20);
+        });
+
         return view('admin.news.index', compact('news'));
     }
 

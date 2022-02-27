@@ -26,7 +26,11 @@ class ArticlesController extends Controller
 
     public function index()
     {
-        $articles = Article::with('tags')->published()->simplePaginate(10);
+
+        $articles = \Cache::tags(['articles'])->remember('articles',3600*24*7,function (){
+            return Article::with('tags')->published()->simplePaginate(10);
+        });
+
         return view('articles.index', compact('articles'));
     }
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use function PHPUnit\TestFixture\func;
 
 class Article extends Model
 {
@@ -27,6 +28,16 @@ class Article extends Model
                 'before' => json_encode(Arr::only($article->fresh()->toArray(), array_keys($after)), JSON_UNESCAPED_UNICODE),
                 'after' => json_encode($after, JSON_UNESCAPED_UNICODE),
             ]);
+        });
+
+        static::created(function(){
+            \Cache::tags(['articles'])->flush();
+        });
+        static::updated(function(){
+            \Cache::tags(['articles'])->flush();
+        });
+        static::deleted(function(){
+            \Cache::tags(['articles'])->flush();
         });
     }
 
@@ -53,10 +64,6 @@ class Article extends Model
 
     public function comments()
     {
-        /*
-        return $this->belongsToMany(User::class, 'comments')
-            ->withPivot(['text'])->withTimestamps();
-        */
         return $this->morphMany(Comment::class, 'commentable');
     }
 
